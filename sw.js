@@ -1,7 +1,7 @@
-const CACHE = 'dualar-37688f01';
+const CACHE = 'dualar-e3fa4993';
 const ASSETS = ["./", "index.html", "manifest.webmanifest", "sch.woff2", "lit.woff2", "lit-i.woff2", "icon-192.png", "icon-512.png", "maskable-512.png", "apple-180.png", "fav-48.png"];
 self.addEventListener('install', e => {
-  e.waitUntil(caches.open(CACHE).then(c => c.addAll(ASSETS)).then(() => self.skipWaiting()));
+  e.waitUntil(caches.open(CACHE).then(c => c.addAll(ASSETS.map(u => new Request(u, {cache: 'reload'})))).then(() => self.skipWaiting()));
 });
 self.addEventListener('activate', e => {
   e.waitUntil(caches.keys().then(ks => Promise.all(ks.filter(k => k.startsWith('dualar-') && k !== CACHE).map(k => caches.delete(k)))).then(() => self.clients.claim()));
@@ -12,7 +12,7 @@ self.addEventListener('fetch', e => {
   if (req.mode === 'navigate') {
     // Sayfa: kayıtlı kopya hemen açılır (internet yavaşken de beklemez); arka planda yeni sürüm denetlenir
     e.respondWith(caches.match('index.html').then(cached => {
-      const net = fetch(req).then(r => { if (r.ok){ const cp = r.clone(); caches.open(CACHE).then(c => c.put('index.html', cp)); } return r; });
+      const net = fetch(req.url, {cache: 'no-cache'}).then(r => r.ok ? caches.open(CACHE).then(c => c.put('index.html', r.clone())).then(() => r) : r);
       if (cached){ e.waitUntil(net.catch(() => {})); return cached; }
       return net;
     }));
