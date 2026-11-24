@@ -1,5 +1,5 @@
-const CACHE = 'dualar-989b71b3';
-const ASSETS = ["./", "index.html", "manifest.webmanifest", "fonts/sch.woff2", "fonts/lit.woff2", "fonts/lit-i.woff2", "icons/icon-192.png", "icons/icon-512.png", "icons/maskable-512.png", "icons/apple-180.png", "icons/fav-48.png"];
+const CACHE = 'dualar-44aff521';
+const ASSETS = ["./", "index.html", "manifest.webmanifest", "sch.woff2", "lit.woff2", "lit-i.woff2", "icon-192.png", "icon-512.png", "maskable-512.png", "apple-180.png", "fav-48.png"];
 self.addEventListener('install', e => {
   e.waitUntil(caches.open(CACHE).then(c => c.addAll(ASSETS)).then(() => self.skipWaiting()));
 });
