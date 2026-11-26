@@ -1,4 +1,4 @@
-const CACHE = 'dualar-acd32aa0';
+const CACHE = 'dualar-54c8fa1b';
 const ASSETS = ["./", "index.html", "manifest.webmanifest", "sch.woff2", "lit.woff2", "lit-i.woff2", "icon-192.png", "icon-512.png", "maskable-512.png", "apple-180.png", "fav-48.png"];
 self.addEventListener('install', e => {
   e.waitUntil(caches.open(CACHE).then(c => c.addAll(ASSETS.map(u => new Request(u, {cache: 'reload'})))).then(() => self.skipWaiting()));
